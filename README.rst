@@ -8,18 +8,24 @@ Usage example:
 
 .. code-block:: yaml
 
-     engine:
+    # Available engines
+    engine:
       Diesel:
         __realization__: yadic.examples.domain.engine.Diesel
 
+    # Available vehicles
     vehicle:
       Truck:
         __realization__: yadic.examples.domain.vehicles.Truck
+
+        # this will be a constructor argument
+        # and value will contain an instance of Diesel class
         engine: Diesel
 
+    # Cities
     city:
       __default__:
-        __type__: static
+        __type__: static # City won't be instantiated on injection
 
       Paris:
         __realization__: yadic.examples.domain.address.Paris
@@ -27,28 +33,34 @@ Usage example:
       Fleeblebrox:
         __realization__: yadic.examples.domain.address.Fleeblebrox
 
+    # Cargo
     stuff:
       __default__:
-        __realization__: builtins.dict
+        __realization__: builtins.dict # target is just a dict
 
       food:
+        # at this time $name is just plain kwarg (not an injection)
         $name: Erkburgles
       fuel:
         $name: Unobtaineum
       drink:
         $name: Nuke-Cola
 
+    # transfers
     transfer:
       from_Paris_with_love:
         __realization__: yadic.examples.domain.transfer.Transfer
-        __type__: singleton
+        __type__: singleton # every trasfer is unique
 
         vehicle: Truck
+
+        # at this time names of kwargs differ from the name of group ("city")
         from_city:city: Paris
         to_city:city: Fleeblebrox
         cargo:stuff:
           - food
           - drink
+
 
 .. code-block:: python
 
