@@ -56,11 +56,8 @@ Usage example:
     from yadic.container import Container
 
     if __name__ == '__main__':
-        with open('agent.yaml', 'r') as f:
-            obj = yaml.load(f)
-
-            cont = Container(obj)
-
+        with open('container.yaml', 'r') as f:
+            cont = Container(yaml.load(f))
             tr = cont.get('transfer', 'from_Paris_with_love')
 
 
@@ -72,6 +69,8 @@ Usage example:
         to_city=Fleeblebrox,
         cargo=[{'name': 'Erkburgles'}, {'name': 'Nuke-Cola'}]
     )
+
+It works on python 3.5, for python < 3 just need change `builtins` to `__builtin__`
 
 For more info go to `https://github.com/astynax/yadic <https://github.com/astynax/yadic>`_
 
