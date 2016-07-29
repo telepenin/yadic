@@ -7,7 +7,6 @@ Yet Another Dependency Injection Container
 Usage example:
 
 .. code-block:: python
-    :number-lines: 0
 
     cont = Container({
         # Available engines
