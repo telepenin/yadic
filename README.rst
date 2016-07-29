@@ -6,65 +6,63 @@ Yet Another Dependency Injection Container
 
 Usage example:
 
+.. code-block:: yaml
+
+     engine:
+      Diesel:
+        __realization__: yadic.examples.domain.engine.Diesel
+
+    vehicle:
+      Truck:
+        __realization__: yadic.examples.domain.vehicles.Truck
+        engine: Diesel
+
+    city:
+      __default__:
+        __type__: static
+
+      Paris:
+        __realization__: yadic.examples.domain.address.Paris
+
+      Fleeblebrox:
+        __realization__: yadic.examples.domain.address.Fleeblebrox
+
+    stuff:
+      __default__:
+        __realization__: builtins.dict
+
+      food:
+        $name: Erkburgles
+      fuel:
+        $name: Unobtaineum
+      drink:
+        $name: Nuke-Cola
+
+    transfer:
+      from_Paris_with_love:
+        __realization__: yadic.examples.domain.transfer.Transfer
+        __type__: singleton
+
+        vehicle: Truck
+        from_city:city: Paris
+        to_city:city: Fleeblebrox
+        cargo:stuff:
+          - food
+          - drink
+
 .. code-block:: python
 
-    cont = Container({
-        # Available engines
-        'engine': {
-            'Diesel': {'__realization__': 'domain.engine.Diesel'}
-        },
-        # Available vehicles
-        'vehicle': {
-            'Truck': {
-                '__realization__': 'domain.vehicles.Truck',
-                # this will be a constructor argument
-                # and value will contain an instance of Diesel class
-                'engine': 'Diesel',
-            }
-        },
-        # Cities
-        'city': {
-            '__default__': {
-                '__type__': 'static'  # City won't be instantiated on injection
-            },
-            'Paris': {
-                '__realization__': 'domain.address.Paris'
-            },
-            'Fleeblebrox': {
-                '__realization__': 'domain.address.Fleeblebrox'
-            }
-        },
-        # Cargo
-        'stuff': {
-            '__default__': {
-                '__realization__': '__builtin__.dict'  # target is just a dict
-            },
-            'food': {
-                # at this time $name is just plain kwarg (not an injection)
-                '$name': 'Erkburgles'
-            },
-            'fuel': {
-                '$name': 'Unobtaineum'
-            },
-            'drink': {
-                '$name': 'Nuke-Cola'
-            }
-        },
-        # transfers
-        'transfer': {
-            'from_Paris_with_love': {
-                '__realization__': 'domain.transfer.Transfer',
-                '__type__': 'singleton',  # every trasfer is unique
-                'vehicle': 'Truck',
-                # at this time names of kwargs differ from the name of group ("city")
-                'from_city:city': 'Paris',
-                'to_city:city': 'Fleeblebrox',
-                'cargo:stuff': ['food', 'drink']
-            }
-        }
-    })
+    import yaml
+    from yadic.container import Container
 
-    tr = cont.get('transfer', 'from_Paris_with_love')
+    if __name__ == '__main__':
+        with open('agent.yaml', 'r') as f:
+            obj = yaml.load(f)
+
+            cont = Container(obj)
+
+            tr = cont.get('transfer', 'from_Paris_with_love')
+
 
     # this will be equal to
 

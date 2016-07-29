@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function
-from importlib import import_module
+
 import re
+from importlib import import_module
 
 from yadic.util import merge
 
@@ -110,7 +111,10 @@ class Container(object):
         if '.' not in name:
             raise ValueError('Entity name must be the fully qualified!')
         attr_name = name.split('.')[-1]
-        module = import_module(name[:-(len(attr_name) + 1)])
+        try:
+            module = import_module(name[:-(len(attr_name) + 1)])
+        except ImportError as e:
+            raise
         return getattr(module, attr_name)
 
     def _get_blueprint(self, group, name):
@@ -215,8 +219,8 @@ class Container(object):
                     wrong('element', (group, el))
                 for k, v in cfg.items():
                     if not (
-                        is_valid_name(k) or
-                        k in ('__realization__', '__type__')
+                            is_valid_name(k) or
+                                k in ('__realization__', '__type__')
                     ):
                         wrong('attr', (group, el, k))
                     if k == '__type__' and v not in cls._TYPES:
