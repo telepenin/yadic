@@ -128,7 +128,7 @@ class Container(object):
         return (
             blueprint,
             self._entity_cache.get(key) or self._entity_cache.setdefault(
-                key, self._get_entity(blueprint['__']))
+                key, self._get_entity(blueprint['__is']))
         )
 
     def itergroup(self, group):
@@ -220,7 +220,7 @@ class Container(object):
                 for k, v in cfg.items():
                     if not (
                             is_valid_name(k) or
-                                k in ('__', '__type__')
+                                k in ('__is', '__type__')
                     ):
                         wrong('attr', (group, el, k))
                     if k == '__type__' and v not in cls._TYPES:

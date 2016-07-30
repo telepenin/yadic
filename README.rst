@@ -11,13 +11,12 @@ Usage example:
     # Available engines
     engine:
       Diesel:
-        # __ -- how to implement Diesel
-        __: yadic.examples.domain.engine.Diesel
+        __is: yadic.examples.domain.engine.Diesel
 
     # Available vehicles
     vehicle:
       Truck:
-        __: yadic.examples.domain.vehicles.Truck
+        __is: yadic.examples.domain.vehicles.Truck
 
         # this will be a constructor argument
         # and value will contain an instance of Diesel class
@@ -29,15 +28,15 @@ Usage example:
         __type__: static # City won't be instantiated on injection
 
       Paris:
-        __: yadic.examples.domain.address.Paris
+        __is: yadic.examples.domain.address.Paris
 
       Fleeblebrox:
-        __: yadic.examples.domain.address.Fleeblebrox
+        __is: yadic.examples.domain.address.Fleeblebrox
 
     # Cargo
     stuff:
       __default__:
-        __: builtins.dict # target is just a dict
+        __is: builtins.dict # target is just a dict
 
       food:
         # at this time $name is just plain kwarg (not an injection)
@@ -50,7 +49,7 @@ Usage example:
     # transfers
     transfer:
       from_Paris_with_love:
-        __: yadic.examples.domain.transfer.Transfer
+        __is: yadic.examples.domain.transfer.Transfer
         __type__: singleton # every trasfer is unique
 
         vehicle: Truck
@@ -61,6 +60,7 @@ Usage example:
         cargo:stuff:
           - food
           - drink
+
 
 
 
