@@ -27,13 +27,15 @@ def build_and_browse(context):
 
 
 def main():
+    import yaml
+
     fname, prefix = (sys.argv[1:] + [None, None])[:2]
     if not fname:
         print("Usage: cmd config.json [prefix]")
     else:
         try:
             with open(fname) as f:
-                config = json.load(f)
+                config = yaml.load(f)
         except Exception as e:
             print(e)
             sys.exit(1)

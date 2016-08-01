@@ -217,6 +217,7 @@ class Container(object):
             for el, cfg in elems.items():
                 if not is_ident(el) and el != '__default__':
                     wrong('element', (group, el))
+                # instantiate without arguments
                 for k, v in cfg.items():
                     if not (
                             is_valid_name(k) or
@@ -228,4 +229,18 @@ class Container(object):
         return errors
 
 
-__all__ = (Container, Injectable)
+def from_yaml(f):
+    """
+    Load container from yaml file
+
+    :param f: path to config file
+    :return: Container
+    """
+    import yaml
+
+    with open(f, 'r') as f:
+        cont = Container(yaml.load(f))
+    return cont
+
+
+__all__ = (Container, Injectable, from_yaml)

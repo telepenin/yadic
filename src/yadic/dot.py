@@ -6,7 +6,7 @@ import json
 from collections import deque
 from optparse import OptionParser
 
-from yadic.container import Container
+from yadic.container import Container, from_yaml
 
 
 def dot(container, include, exclude):
@@ -32,6 +32,7 @@ def dot(container, include, exclude):
             return (from_node and consider_from) or (
                 node[0] in groupset or node in nodeset
             )
+
         return inner
 
     def branch(node):
@@ -122,12 +123,12 @@ def _main():
         parser.error('config file must be provided')
     else:
         conf_file, = args
-        with open(conf_file) as f:
-            print(dot(
-                container=Container(json.load(f)),
-                include=_parse_filter(options.include or ''),
-                exclude=_parse_filter(options.exclude or '')
-            ))
+
+        print(dot(
+            container=from_yaml(conf_file),
+            include=_parse_filter(options.include or ''),
+            exclude=_parse_filter(options.exclude or '')
+        ))
 
 
 if __name__ == '__main__':
