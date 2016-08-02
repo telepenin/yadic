@@ -35,7 +35,7 @@ class Injectable(type):
     "Provides the __init__ with the suitable args, based on dependencies"
 
     def __new__(cls, name, bases, dic):
-        deps = dic.setdefault('depends_on', tuple())
+        deps = dic.get('__slots__', dic.setdefault('depends_on', tuple()))
         if deps and '__init__' not in dic:
             # формирование конструктора
             init = eval("lambda self, {}: {}".format(
