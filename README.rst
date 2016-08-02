@@ -66,13 +66,9 @@ Usage example:
 
 .. code-block:: python
 
-    import yaml
-    from yadic.container import Container
-
     if __name__ == '__main__':
-        with open('container.yaml', 'r') as f:
-            cont = Container(yaml.load(f))
-            tr = cont.get('transfer', 'from_Paris_with_love')
+        cont = yadic.from_yaml('container.yaml')
+        tr = cont.get('transfer', 'from_Paris_with_love')
 
 
     # this will be equal to
